@@ -1,0 +1,33 @@
+name: Generate Dockerfile for Flask
+
+on: push
+
+jobs:
+  generate-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Dockerfile
+        run: |
+          cat <<EOF > Dockerfile
+          FROM python:3.11-slim
+          WORKDIR /app
+          COPY . /app
+          RUN pip install --no-cache-dir -r requirements.txt
+          ENV FLASK_APP=app.py
+          CMD ["flask", "run", "--host=0.0.0.0"]
+          EOF
+
+      - name: Commit Dockerfile
+        run: |
+          git add Dockerfile
+          git commit -m "Add generated Dockerfile"
+          git push
