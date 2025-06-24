@@ -2,6 +2,9 @@ name: Generate Dockerfile for Flask
 
 on: push
 
+permissions:
+  contents: write
+
 jobs:
   generate-and-commit:
     runs-on: ubuntu-latest
