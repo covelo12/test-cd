@@ -5,9 +5,13 @@ on: push
 permissions:
   contents: write
 
+defaults: 
+  run:
+    working-directory: ./Dockerfiles
 jobs:
   generate-and-commit:
     runs-on: ubuntu-latest
+
 
     steps:
       - name: Checkout repository
